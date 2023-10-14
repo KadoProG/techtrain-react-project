@@ -1,0 +1,129 @@
+:root {
+  --base__height: 60px;
+  --color__text: #000;
+  --color__panel0: #eee;
+  --color__panel1: #fff;
+  --color__theme: #45c7ff;
+  --color__title: #fff;
+  --hover__panel: brightness(97%);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color__panel0);
+  color: var(--color__text);
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  background: var(--color__theme);
+  height: var(--base__height);
+  display: flex;
+  color: var(--color__title);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  & h1 {
+    font-size: 30px;
+  }
+
+  & a {
+    color: var(--color__title);
+  }
+}
+
+.main {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 10px;
+  padding-top: var(--base__height);
+  min-height: calc(100vh - 160px);
+
+  &__threads-container {
+    & p {
+      padding: 20px;
+      background: var(--color__panel1);
+      margin: 10px 0;
+      position: relative;
+      border-radius: 4px;
+      & span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #ddd;
+      }
+      &:hover {
+        filter: var(--hover__panel);
+        &::after {
+          position: absolute;
+          right: 10px;
+          content: "＞";
+          animation: threads-p-hover 0.3s ease-out;
+          @keyframes threads-p-hover {
+            0% {
+              transform: translateX(-10px);
+            }
+            100% {
+              transform: translateX(0);
+            }
+          }
+        }
+      }
+    }
+  }
+  &__new {
+    max-width: 500px;
+    margin: 0 auto;
+
+    & input {
+      width: 100%;
+      margin: 30px 0;
+      background: var(--color__panel1);
+      color: var(--color__text);
+      font-size: 18px;
+      line-height: 40px;
+      border-radius: 4px;
+      border: none;
+    }
+    &__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & button {
+        border-radius: 4px;
+        border: none;
+        font-size: 18px;
+        line-height: 40px;
+        padding: 0 40px;
+        color: var(--color__title);
+        background: var(--color__theme);
+      }
+    }
+  }
+}
+
+.footer {
+  background: black;
+  color: var(--color__title);
+  padding: 40px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color__text: #ddd;
+    --color__panel0: #111;
+    --color__panel1: #222;
+    --color__theme: #17465a;
+    --color__title: #ddd;
+    --hover__panel: brightness(120%);
+  }
+}
