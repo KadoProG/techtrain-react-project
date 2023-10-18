@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroller";
 
 const Threads = () => {
   const [hasError, setHasError] = useState(false); // エラー状態
-  const [hasWait, setHasWait] = useState(true); // 待ち状態
+  const [isLoading, setIsLoading] = useState(true); // 待ち状態
   const [threads, setThreads] = useState([]); // スレッド一覧
 
   // ロード時に実行
@@ -12,7 +12,7 @@ const Threads = () => {
     fetchThreadsData(0)
       .then((result) => {
         setThreads(result);
-        setHasWait(false);
+        setIsLoading(false);
       })
       .catch((error) => {
         setHasError(true);
@@ -20,35 +20,43 @@ const Threads = () => {
       });
   }, []);
 
+  // デバッグ用
   useEffect(() => {
     console.log(threads);
   }, [threads]);
 
+  // ローディングが完了したら、エラーを解除
   useEffect(() => {
-    if (hasWait === false) {
+    if (isLoading === false) {
       setHasError(false);
     }
-  }, [hasWait]);
+  }, [isLoading]);
 
+  // 挿入するListの要素
   const items = hasError ? (
-    <p key={-1}>エラーのため読み込みに失敗しました</p>
+    <p key={-1} className="main__threads__error">
+      エラーのため読み込みに失敗しました
+    </p>
   ) : (
-    threads.map((thread, index) => {
-      return (
-        <p key={index}>
-          <span>{index + 1}</span>
-          {thread.title}
-        </p>
-      );
-    })
+    <ul>
+      {threads.map((thread, index) => {
+        return (
+          <li key={thread.id}>
+            <span>{index + 1}</span>
+            {thread.title}
+          </li>
+        );
+      })}
+    </ul>
   );
 
+  // 無限スクロールで、一定以上スクロールしたら発火される処理
   const loadMore = async () => {
-    setHasWait(true);
+    setIsLoading(true);
     await fetchThreadsData(threads.length)
       .then((result) => {
         setThreads([...threads, ...result]);
-        setHasWait(false);
+        setIsLoading(false);
       })
       .catch((error) => {
         hasError(true);
@@ -56,6 +64,7 @@ const Threads = () => {
       });
   };
 
+  // ロード時の要素?
   const loader = <div key={0}>Loading ...</div>;
 
   return (
@@ -64,7 +73,7 @@ const Threads = () => {
       <InfiniteScroll
         className="main__threads-container"
         loadMore={loadMore}
-        hasMore={!hasWait}
+        hasMore={!isLoading}
         loader={loader}
       >
         {items}

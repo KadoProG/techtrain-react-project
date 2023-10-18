@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { fetchAddThread } from "../fetch";
+import { Link } from "react-router-dom";
 
 const New = () => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(""); // 入力テキスト
 
+  // テキストを更新
   const handleChange = (e) => {
     setText(e.target.value);
   };
 
   // 送信時の処理
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (text === "") return;
     e.preventDefault();
     const newText = text;
@@ -24,12 +27,13 @@ const New = () => {
       });
   };
 
+  // デバッグ用
   useEffect(() => {
     console.log(text);
   }, [text]);
 
   return (
-    <div className="main__new">
+    <form className="main__new" onSubmit={handleSubmit}>
       <h2>スレッド新規作成</h2>
       <input
         type="text"
@@ -38,10 +42,10 @@ const New = () => {
         onChange={handleChange}
       />
       <div className="main__new__bottom">
-        <a href="/">トップに戻る</a>
-        <button onClick={handleClick}>作成</button>
+        <Link to="/">トップに戻る</Link>
+        <button type="submit">作成</button>
       </div>
-    </div>
+    </form>
   );
 };
 

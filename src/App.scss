@@ -5,6 +5,7 @@
   --color__panel1: #fff;
   --color__theme: #45c7ff;
   --color__title: #fff;
+  --color__error: red;
   --hover__panel: brightness(97%);
 }
 
@@ -32,12 +33,22 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  & h1 {
-    font-size: 30px;
-  }
 
   & a {
     color: var(--color__title);
+    &:first-child {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 30px;
+      text-decoration: none;
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      & h1 {
+        font-size: 30px;
+      }
+    }
   }
 }
 
@@ -48,38 +59,47 @@ body {
   padding-top: var(--base__height);
   min-height: calc(100vh - 160px);
 
-  &__threads-container {
-    & p {
-      padding: 20px;
-      background: var(--color__panel1);
-      margin: 10px 0;
-      position: relative;
-      border-radius: 4px;
-      & span {
-        position: absolute;
-        top: 0;
-        left: 0;
-        color: #ddd;
-      }
-      &:hover {
-        filter: var(--hover__panel);
-        &::after {
-          position: absolute;
-          right: 10px;
-          content: "＞";
-          animation: threads-p-hover 0.3s ease-out;
-          @keyframes threads-p-hover {
-            0% {
-              transform: translateX(-10px);
-            }
-            100% {
-              transform: translateX(0);
+  &__threads {
+    &__error {
+      color: var(--color__error);
+    }
+    &-container {
+      & > ul {
+        & li {
+          list-style: none;
+          padding: 20px;
+          background: var(--color__panel1);
+          margin: 10px 0;
+          position: relative;
+          border-radius: 4px;
+          & span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #ddd;
+          }
+          &:hover {
+            filter: var(--hover__panel);
+            &::after {
+              position: absolute;
+              right: 10px;
+              content: "＞";
+              animation: threads-p-hover 0.3s ease-out;
+              @keyframes threads-p-hover {
+                0% {
+                  transform: translateX(-10px);
+                }
+                100% {
+                  transform: translateX(0);
+                }
+              }
             }
           }
         }
       }
     }
   }
+
   &__new {
     max-width: 500px;
     margin: 0 auto;
