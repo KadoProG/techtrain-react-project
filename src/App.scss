@@ -59,6 +59,8 @@ body {
   padding-top: var(--base__height);
   min-height: calc(100vh - 160px);
 
+  position: relative;
+
   &__threads {
     &__error {
       color: var(--color__error);
@@ -67,7 +69,15 @@ body {
       & > ul {
         & li {
           list-style: none;
-          padding: 20px;
+          display: flex;
+          align-items: center;
+          & a {
+            padding: 20px;
+            display: block;
+            flex: 1;
+            color: var(--color__text);
+            text-decoration: none;
+          }
           background: var(--color__panel1);
           margin: 10px 0;
           position: relative;
@@ -99,12 +109,35 @@ body {
       }
     }
   }
+  &__thread {
+    &__error {
+      color: var(--color__error);
+    }
+    &-container {
+      & > ul {
+        & li {
+          list-style: none;
+          padding: 10px 20px;
+          background: var(--color__panel1);
+          margin: 10px 0;
+          position: relative;
+          & span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #ddd;
+          }
+        }
+      }
+    }
+  }
 
   &__new {
     max-width: 500px;
     margin: 0 auto;
 
-    & input {
+    & input,
+    & textarea {
       width: 100%;
       margin: 30px 0;
       background: var(--color__panel1);
@@ -118,16 +151,31 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      & button {
-        border-radius: 4px;
-        border: none;
-        font-size: 18px;
-        line-height: 40px;
-        padding: 0 40px;
-        color: var(--color__title);
-        background: var(--color__theme);
-      }
     }
+    & button {
+      border-radius: 4px;
+      border: none;
+      font-size: 18px;
+      line-height: 40px;
+      padding: 0 40px;
+      color: var(--color__title);
+      background: var(--color__theme);
+    }
+  }
+  &__topright {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 40px;
+
+    & textarea {
+      font-size: 16px;
+      line-height: 32px;
+      height: 100px;
+      margin: 10px 0;
+    }
+    // position: fixed;
+    // top: 0;
+    // right: 0;
   }
 }
 

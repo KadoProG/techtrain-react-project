@@ -14,11 +14,13 @@ const New = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text === "") return;
-    e.preventDefault();
     const newText = text;
     setText("");
     fetchAddThread(newText)
       .then((result) => {
+        const threadId = result.id;
+        const url = "/thread/" + threadId;
+        window.location.href = url;
         console.log(result);
       })
       .catch((error) => {

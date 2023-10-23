@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchThreadsData } from "../fetch";
 import InfiniteScroll from "react-infinite-scroller";
+import { Link } from "react-router-dom";
 
-const Threads = () => {
+const Threads = (props) => {
   const [hasError, setHasError] = useState(false); // エラー状態
   const [isLoading, setIsLoading] = useState(true); // 待ち状態
   const [threads, setThreads] = useState([]); // スレッド一覧
@@ -16,6 +17,7 @@ const Threads = () => {
       })
       .catch((error) => {
         setHasError(true);
+        setIsLoading(false);
         console.error(error);
       });
   }, []);
@@ -32,6 +34,10 @@ const Threads = () => {
     }
   }, [isLoading]);
 
+  const handleClick = (title) => {
+    props.setTitle(title);
+  };
+
   // 挿入するListの要素
   const items = hasError ? (
     <p key={-1} className="main__threads__error">
@@ -40,10 +46,13 @@ const Threads = () => {
   ) : (
     <ul>
       {threads.map((thread, index) => {
+        const threadUrl = "/thread/" + thread.id;
         return (
           <li key={thread.id}>
-            <span>{index + 1}</span>
-            {thread.title}
+            <Link to={threadUrl} onClick={() => handleClick(thread.title)}>
+              <span>{index + 1}</span>
+              {thread.title}
+            </Link>
           </li>
         );
       })}
@@ -52,6 +61,7 @@ const Threads = () => {
 
   // 無限スクロールで、一定以上スクロールしたら発火される処理
   const loadMore = async () => {
+    if (hasError) return;
     setIsLoading(true);
     await fetchThreadsData(threads.length)
       .then((result) => {
@@ -59,7 +69,8 @@ const Threads = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        hasError(true);
+        setHasError(true);
+        setIsLoading(false);
         console.error(error);
       });
   };
