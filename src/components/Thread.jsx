@@ -9,7 +9,7 @@ const Thread = (props) => {
   const [isLoading, setIsLoading] = useState(true); // 待ち状態
   const [isLast, setIsLast] = useState(false); // 最後か否か
   const [isReadMore, setIsReadMore] = useState(false); // ロード可能か否か
-  const [threadList, setThreadList] = useState([]); // スレッド一覧
+  const [threadPosts, setThreadPosts] = useState([]); // POST一覧
   const threadTitle = props.title; // スレッドタイトル
 
   const threadId = useParams().id || ""; // スレッドIDを取得
@@ -21,7 +21,7 @@ const Thread = (props) => {
         if (result.posts.length === 0) {
           setIsLast(true);
         }
-        setThreadList([...result.posts]);
+        setThreadPosts([...result.posts]);
       })
       .catch((error) => {
         setHasError(true);
@@ -37,23 +37,23 @@ const Thread = (props) => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(threadList);
-  }, [threadList]);
+    console.log(threadPosts);
+  }, [threadPosts]);
 
   // 記事を再読み込み
   const onReload = () => {
     setIsLast(false);
-    setThreadList([]);
+    setThreadPosts([]);
   };
 
-  // 挿入するListの要素
+  // 挿入するPostsの要素
   const items = hasError ? (
     <p key={-1} className="main__threads__error">
       エラーのため読み込みに失敗しました
     </p>
   ) : (
     <ul>
-      {threadList.map((thread, index) => {
+      {threadPosts.map((thread, index) => {
         return (
           <li key={thread.id}>
             <span>{index + 1}</span>
@@ -69,11 +69,11 @@ const Thread = (props) => {
     if (hasError || isLast) return;
     setIsLoading(true);
     try {
-      const result = await fetchThreadData(threadId, threadList.length);
+      const result = await fetchThreadData(threadId, threadPosts.length);
       if (result.posts.length === 0) {
         setIsLast(true);
       }
-      setThreadList([...threadList, ...result.posts]);
+      setThreadPosts([...threadPosts, ...result.posts]);
     } catch (error) {
       setHasError(true);
       console.error(error);

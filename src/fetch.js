@@ -53,7 +53,7 @@ export const fetchAddThread = async (titleText) => {
   });
 };
 
-// 新しいスレッドを追加
+// 新しいPOSTを追加
 export const fetchAddThreadItem = async (threadId, titleText) => {
   const url = BASE_URL + "/threads/" + threadId + "/posts";
   const send_json = { post: titleText };

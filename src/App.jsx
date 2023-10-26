@@ -22,7 +22,10 @@ const App = () => {
             path="/"
             element={<Threads setTitle={(title) => setThreadTitle(title)} />}
           />
-          <Route path="/thread/new" element={<New />} />
+          <Route
+            path="/thread/new"
+            element={<New setTitle={(title) => setThreadTitle(title)} />}
+          />
         </Routes>
       </main>
       <footer className="footer">ここがﾌｯﾀﾞ</footer>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchAddThread } from "../fetch";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const New = () => {
+const New = (props) => {
   const [text, setText] = useState(""); // 入力テキスト
+
+  const navigate = useNavigate(); // ナビゲートで別ページ推移をしなさい
 
   // テキストを更新
   const handleChange = (e) => {
@@ -20,7 +22,8 @@ const New = () => {
       .then((result) => {
         const threadId = result.id;
         const url = "/thread/" + threadId;
-        window.location.href = url;
+        props.setTitle(text);
+        navigate(url); // ナビゲートでページ推移をしなさい
         console.log(result);
       })
       .catch((error) => {
